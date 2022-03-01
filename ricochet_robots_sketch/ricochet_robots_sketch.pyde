@@ -1,9 +1,12 @@
-def setup():
-    size(480, 120)
+from grid import Grid
 
-def draw():
-    if  mousePressed:
-        fill(0)
-    else:
-        fill(255)
-    ellipse(mouseX, mouseY, 80, 80)
+
+n_tiles = 16
+margin = 50
+def setup():
+    size(900, 900)
+    grid = Grid(n_tiles,n_tiles)
+    background(120);
+    translate(margin, margin);
+    grid.print_grid()
+    
