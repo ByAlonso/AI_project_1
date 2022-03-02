@@ -6,7 +6,7 @@ class Grid:
     def __init__(self,cols,rows):
         self.cols = cols
         self.rows = rows
-        self.goals = [Goal(color(255,0,0),'triangle'),Goal(color(0,0,255),'triangle'),Goal(color(0,255,0),'triangle'),Goal(color(0,255,255),'triangle')]
+        self.goals = [Goal(color(255,0,0),'cross'),Goal(color(0,0,255),'cross'),Goal(color(0,255,0),'square'),Goal(color(0,255,255),'square')]
         self.grid = self.create_grid()
         
         

@@ -30,11 +30,12 @@ class Tile:
         square(50 * self.x_pos, 50 * self.y_pos, 50);
         self.print_walls()
         if self.goal is not None:
-            self.print_goal()
+            self.goal.print_goal(self.x_pos,self.y_pos)
         
         
     def print_walls(self):
         strokeWeight(8)
+        stroke(0)
         if self.has_up_wall:
             line(50 * self.x_pos, 50 * self.y_pos,50 * self.x_pos + 50, 50 * self.y_pos)
         if self.has_left_wall:
@@ -43,13 +44,9 @@ class Tile:
             line(50 * self.x_pos, 50 * self.y_pos + 50,50 * self.x_pos + 50, 50 * self.y_pos + 50)
         if self.has_right_wall:
             line(50 * self.x_pos + 50, 50 * self.y_pos,50 * self.x_pos + 50, 50 * self.y_pos + 50)
+        stroke(153)
             
-    def print_goal(self):
-        strokeWeight(3)
-        if self.goal.shp == 'triangle':
-            fill(self.goal.clr)
-            triangle(50 * self.x_pos + 10,50 * self.y_pos + 10,50 * self.x_pos + 10,50 * self.y_pos + 40,50 * self.x_pos + 40,50 * self.y_pos + 25)
-            fill(255)
+    
         
         
             
