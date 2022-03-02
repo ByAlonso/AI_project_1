@@ -1,15 +1,19 @@
 from tile import Tile
+from goal import Goal
 T = True
 F = False
 class Grid:
     def __init__(self,cols,rows):
         self.cols = cols
         self.rows = rows
+        self.goals = [Goal(color(255,0,0),'triangle'),Goal(color(0,0,255),'triangle'),Goal(color(0,255,0),'triangle'),Goal(color(0,255,255),'triangle')]
         self.grid = self.create_grid()
+        
         
     def create_grid(self):
         grid = self.create_outter_walls()
         self.create_inner_walls(grid)
+        self.create_goals(grid)
         return grid
     
     def print_grid(self):
@@ -98,7 +102,7 @@ class Grid:
         grid[9][4].set_walls(F,T,T,F)
         grid[9][3].set_walls(F,F,F,T)
         grid[10][4].set_walls(T,F,F,F)
-       
+        
         grid[9][15].set_walls(F,F,T,T)
         grid[10][15].set_walls(T,F,F,T)
         
@@ -143,6 +147,11 @@ class Grid:
         grid[15][11].set_walls(F,F,T,T)
         grid[15][12].set_walls(F,T,T,F)
         
+    def create_goals(self,grid):
+        grid[2][1].set_goal(self.goals[0])
+        grid[6][12].set_goal(self.goals[1])
+        grid[9][4].set_goal(self.goals[2])
+        grid[14][14].set_goal(self.goals[3])
         
         
         

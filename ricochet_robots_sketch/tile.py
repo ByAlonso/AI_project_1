@@ -2,9 +2,8 @@ class Tile:
     def __init__(self,x_pos, y_pos):
         self.is_occupied = False
         self.robot = None
+        self.goal = None
         self.is_goal = False
-        self.goal_shape = None
-        self.goal_color = None
         self.has_up_wall = False
         self.has_left_wall = False
         self.has_right_wall = False
@@ -18,10 +17,9 @@ class Tile:
         self.has_down_wall = down
         self.has_right_wall = right
         
-    def set_goal(self,clr,shp):
+    def set_goal(self,goal):
         self.is_goal = True
-        self.goal_shape = shp
-        self.goal_color = clr
+        self.goal = goal
         
     def set_robot(self,robot):
         self.robot = robot
@@ -31,6 +29,8 @@ class Tile:
         strokeWeight(0)
         square(50 * self.x_pos, 50 * self.y_pos, 50);
         self.print_walls()
+        if self.goal is not None:
+            self.print_goal()
         
         
     def print_walls(self):
@@ -43,6 +43,14 @@ class Tile:
             line(50 * self.x_pos, 50 * self.y_pos + 50,50 * self.x_pos + 50, 50 * self.y_pos + 50)
         if self.has_right_wall:
             line(50 * self.x_pos + 50, 50 * self.y_pos,50 * self.x_pos + 50, 50 * self.y_pos + 50)
+            
+    def print_goal(self):
+        strokeWeight(3)
+        if self.goal.shp == 'triangle':
+            fill(self.goal.clr)
+            triangle(50 * self.x_pos + 10,50 * self.y_pos + 10,50 * self.x_pos + 10,50 * self.y_pos + 40,50 * self.x_pos + 40,50 * self.y_pos + 25)
+            fill(255)
+        
         
             
         
