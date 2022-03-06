@@ -1,0 +1,32 @@
+from grid import Grid
+
+def spaceShip(x, y, w, clr):
+    fill(clr)
+    noStroke()
+    ellipse(x, y, w/2.8, w/1.2)
+    ellipse(x, y+w/10, w/2, w/2)
+    ellipse(x, y+w/3, w/2.5, w/5)
+
+    stroke(153)
+    fill(255)    
+
+n_tiles = 16
+margin = 50
+
+grid = Grid(n_tiles,n_tiles)
+i = 2
+j = 2
+def setup():
+    size(900, 900)
+    background(120);
+    translate(margin, margin);
+
+
+def draw():
+    global grid, i
+    grid.print_grid()
+    
+    spaceShip(i * 50 + 25,j * 50 + 25, 50, color(0,200,0));
+
+    r_move = 0.05 if (grid.grid[int(j)][int(i)].has_right_wall) == False else 0
+    i += r_move
