@@ -23,14 +23,15 @@ class Tile:
         
     def set_robot(self,robot):
         self.robot = robot
-        self.is_occupied = True
+        self.is_occupied = True if robot is not None else False
         
     def print_tile(self):
         strokeWeight(0)
-        square(50 * self.x_pos, 50 * self.y_pos, 50);
-        self.print_walls()
+        square(50 * self.x_pos, 50 * self.y_pos, 50)
         if self.goal is not None:
             self.goal.print_goal(self.x_pos,self.y_pos)
+        self.print_walls()
+        
         
         
     def print_walls(self):

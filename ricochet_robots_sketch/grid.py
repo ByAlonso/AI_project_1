@@ -1,14 +1,19 @@
 from tile import Tile
 from goal import Goal
+from robot import Robot
+import random
+import time
+
 T = True
 F = False
 class Grid:
     def __init__(self,cols,rows):
         self.cols = cols
         self.rows = rows
-        self.goals = [Goal(color(255,0,0),'cross'),Goal(color(0,0,255),'cross'),Goal(color(0,255,0),'square'),Goal(color(0,255,255),'square')]
+        self.goals = [Goal(color(255,0,0),'cross'),Goal(color(0,0,255),'cross'),Goal(color(0,255,0),'square'),Goal(color(255,255,0),'square')]
+        self.robot_number = 4
         self.grid = self.create_grid()
-        
+        self.robots = self.generate_robots()
         
     def create_grid(self):
         grid = self.create_outter_walls()
@@ -20,7 +25,36 @@ class Grid:
         for row in self.grid:
             for tile in row:
                 tile.print_tile()
-                
+                if tile.robot is not None:
+                    tile.robot.print_robot() 
+        self.print_restricted_area()     
+        self.print_robot()        
+    def print_robot(self):
+        for row in self.grid:
+            for tile in row:
+                if tile.robot is not None:
+                    tile.robot.print_robot()  
+                                  
+    def generate_robots(self):
+        restricted_area = [[7,7],[8,8],[7,8],[8,7]]
+        colors = ['green','blue','yellow','red']
+        robot_dict = {}
+        n = 0
+        while(n < self.robot_number):
+            rand_x = random.randint(0,15)
+            rand_y = random.randint(0,15)
+            if not self.grid[rand_y][rand_x].is_goal and not self.grid[rand_y][rand_x].is_occupied and [rand_x,rand_y] not in restricted_area:
+                robot_dict[colors[n]] = Robot(rand_y,rand_x,50,colors[n])
+                self.grid[rand_y][rand_x].set_robot(robot_dict[colors[n]])
+                n += 1
+        for x in robot_dict:
+            print(robot_dict[x].x_pos,robot_dict[x].y_pos)
+        return robot_dict
+            
+    def print_restricted_area(self):
+        fill(0)
+        square(50 * 7, 50 * 7, 100)    
+        fill(255)    
     def create_outter_walls(self):
         empty_grid = [[Tile(x,y) for x in range(self.cols)] for y in range(self.rows)]
         for row in empty_grid:
