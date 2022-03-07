@@ -14,17 +14,16 @@ def spaceShip(x, y, w, clr):
 
 n_tiles = 16
 margin = 50
+global selected_robot
 def setup():
     global grid, g_robot
-    size(900, 900)
+    size(800, 800)
     background(120)
-    translate(margin, margin)
     grid = Grid(n_tiles,n_tiles)
     grid.print_grid()
     
     
 def draw():
-    translate(margin, margin)
     grid.print_grid()
     '''grid.robots['blue'].move_robot(grid.grid, 'right', 0.1)
     grid.robots['green'].move_robot(grid.grid, 'up', 0.1)
@@ -33,4 +32,21 @@ def draw():
     #g_robot.print_robot()
     #moving = g_robot.move_robot(grid.grid, 'up', 0.10)
     
+def mouseClicked():
+    global selected_robot
+    x_coord = mouseX // 50
+    y_coord = mouseY //50
+    selected_robot = grid.select_robot(x_coord,y_coord)
     
+def keyPressed():  
+    global selected_robot  
+    if selected_robot:
+        print(keyCode)
+        if keyCode == UP:
+            selected_robot.move_robot(grid.grid,'up',1)
+        if keyCode == DOWN:
+            selected_robot.move_robot(grid.grid,'down',1)
+        if keyCode == RIGHT:
+            selected_robot.move_robot(grid.grid,'right',1)
+        if keyCode == LEFT:
+            selected_robot.move_robot(grid.grid,'left',1)

@@ -33,8 +33,17 @@ class Grid:
         for row in self.grid:
             for tile in row:
                 if tile.robot is not None:
-                    tile.robot.print_robot()  
-                                  
+                    tile.robot.print_robot() 
+                     
+    def select_robot(self,x_coord,y_coord):
+        selected_robot = None
+        for robot in self.robots:
+            self.robots[robot].selected = False
+            if self.robots[robot].x_pos == x_coord and self.robots[robot].y_pos == y_coord:
+                selected_robot = self.robots[robot]
+                selected_robot.selected = True
+        return selected_robot
+                
     def generate_robots(self):
         restricted_area = [[7,7],[8,8],[7,8],[8,7]]
         colors = ['green','blue','yellow','red']
@@ -54,7 +63,8 @@ class Grid:
     def print_restricted_area(self):
         fill(0)
         square(50 * 7, 50 * 7, 100)    
-        fill(255)    
+        fill(255) 
+           
     def create_outter_walls(self):
         empty_grid = [[Tile(x,y) for x in range(self.cols)] for y in range(self.rows)]
         for row in empty_grid:
