@@ -16,10 +16,11 @@ def setup():
     current_node = bfs.generate_tree()
     current_node.state.print_state()
     actions = []
-    actions.append(current_node.actions)
+    actions.append(current_node.state.action)
     while current_node.parent != None:
         current_node = current_node.parent
-        actions.append(current_node.actions)
+        actions.append(current_node.state.action)
+    actions.reverse()
     print(actions)
     
     
@@ -31,8 +32,6 @@ def mouseClicked():
     x_coord = mouseX // 50
     y_coord = mouseY //50
     selected_robot = grid.select_robot(x_coord,y_coord)
-    for r in grid.robots:
-        grid.robots[r].forbidden_move = None
         
 def keyPressed():  
     global selected_robot  

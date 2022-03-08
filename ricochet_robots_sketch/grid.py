@@ -44,7 +44,10 @@ class Grid:
             self.robots[robot].selected = False
             if self.robots[robot].x_pos == x_coord and self.robots[robot].y_pos == y_coord:
                 selected_robot = self.robots[robot]
-                selected_robot.selected = True
+                if not selected_robot.selected:
+                    selected_robot.selected = True
+                    for r in self.robots:
+                        self.robots[r].forbidden_move = None
         return selected_robot
                 
     def retrieve_goal(self):

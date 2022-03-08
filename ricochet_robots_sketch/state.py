@@ -1,5 +1,6 @@
 class State():
     def __init__(self,grid):
+        self.grid_ = grid
         self.grid = grid.grid
         self.robots = grid.robots
         self.goal = grid.new_goal
