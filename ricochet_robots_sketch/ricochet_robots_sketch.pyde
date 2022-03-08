@@ -1,15 +1,6 @@
 from grid import Grid
 from robot import Robot
 import time
-def spaceShip(x, y, w, clr):
-    fill(clr)
-    ellipse(x, y, w/2.8, w/1.2)
-    ellipse(x, y+w/10, w/2, w/2)
-    ellipse(x, y+w/3, w/2.5, w/5)
-
-    stroke(153)
-    fill(255)    
-
 
 
 n_tiles = 16
@@ -41,7 +32,6 @@ def mouseClicked():
 def keyPressed():  
     global selected_robot  
     if selected_robot:
-        print(keyCode)
         if keyCode == UP:
             while selected_robot.move_robot(grid.grid,'up',1):
                 pass
@@ -54,3 +44,4 @@ def keyPressed():
         if keyCode == LEFT:
             while selected_robot.move_robot(grid.grid,'left',1):
                 pass
+        grid.check_goal(selected_robot)

@@ -1,9 +1,11 @@
 COLORS = {'red': color(255,0,0), 'blue': color(0,0,255), 'green': color(0,255,0), 'yellow': color(255,255,0)}
 class Goal:
-    def __init__(self,clr,shp):
+    def __init__(self,clr,shp,x_pos,y_pos):
         self.clr = COLORS[clr]
         self.clr_name = clr
         self.shp = shp
+        self.x_pos = x_pos
+        self.y_pos = y_pos
         
     def print_goal(self,x_pos,y_pos):
         strokeWeight(3)

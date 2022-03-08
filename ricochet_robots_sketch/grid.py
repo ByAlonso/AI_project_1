@@ -10,10 +10,11 @@ class Grid:
     def __init__(self,cols,rows):
         self.cols = cols
         self.rows = rows
-        self.goals = [Goal('red','cross'),Goal('blue','cross'),Goal('green','square'),Goal('yellow','square')]
         self.robot_number = 4
+        self.goals = []
         self.grid = self.create_grid()
         self.robots = self.generate_robots()
+        
         self.new_goal = None
         self.retrieve_goal()
         
@@ -47,11 +48,17 @@ class Grid:
         return selected_robot
                 
     def retrieve_goal(self):
-        rand = random.randint(0,len(self.goals) - 1)
-        self.new_goal = self.goals.pop(rand)
-        self.new_goal.console_goal()
+        if len(self.goals) > 0:
+            rand = random.randint(0,len(self.goals) - 1)
+            self.new_goal = self.goals.pop(rand)
+            self.new_goal.console_goal()
+        else:
+            self.game_over()
         
-    def check_goal(self):
+    def check_goal(self,robot):
+        if robot.x_pos == self.new_goal.x_pos and robot.y_pos == self.new_goal.y_pos and robot.name == self.new_goal.clr_name:
+            self.retrieve_goal()
+            #Add score to player
         pass
         
     def generate_robots(self):
@@ -202,12 +209,14 @@ class Grid:
         grid[15][12].set_walls(F,T,T,F)
         
     def create_goals(self,grid):
+        self.goals.extend([Goal('red','cross',1,2),Goal('blue','cross',12,6),Goal('green','square',4,9),Goal('yellow','square',14,14)])
         grid[2][1].set_goal(self.goals[0])
         grid[6][12].set_goal(self.goals[1])
         grid[9][4].set_goal(self.goals[2])
         grid[14][14].set_goal(self.goals[3])
         
-        
+    def game_over(self):
+        print("You have no more chips to pick up")
         
         
         
