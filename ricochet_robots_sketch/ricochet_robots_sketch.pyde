@@ -2,7 +2,6 @@ from grid import Grid
 from robot import Robot
 import time
 
-
 n_tiles = 16
 margin = 50
 global selected_robot
