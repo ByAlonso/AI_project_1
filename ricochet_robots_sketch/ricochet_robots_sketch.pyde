@@ -15,19 +15,16 @@ def setup():
     
 def draw():
     grid.print_grid()
-    '''grid.robots['blue'].move_robot(grid.grid, 'right', 0.1)
-    grid.robots['green'].move_robot(grid.grid, 'up', 0.1)
-    grid.robots['yellow'].move_robot(grid.grid, 'down', 0.1)
-    grid.robots['red'].move_robot(grid.grid, 'left', 0.1)'''
-    #g_robot.print_robot()
-    #moving = g_robot.move_robot(grid.grid, 'up', 0.10)
     
 def mouseClicked():
     global selected_robot
     x_coord = mouseX // 50
     y_coord = mouseY //50
     selected_robot = grid.select_robot(x_coord,y_coord)
-    
+    print(grid.robots)
+    for r in grid.robots:
+        grid.robots[r].forbidden_move = None
+        
 def keyPressed():  
     global selected_robot  
     if selected_robot:
