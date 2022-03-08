@@ -1,6 +1,8 @@
+COLORS = {'red': color(255,0,0), 'blue': color(0,0,255), 'green': color(0,255,0), 'yellow': color(255,255,0)}
 class Goal:
     def __init__(self,clr,shp):
-        self.clr = clr
+        self.clr = COLORS[clr]
+        self.clr_name = clr
         self.shp = shp
         
     def print_goal(self,x_pos,y_pos):
@@ -17,3 +19,5 @@ class Goal:
             line(50 * x_pos + 10,50 * y_pos + 40,50 * x_pos + 40,50 * y_pos + 10)
         stroke(153)
         fill(255)
+    def console_goal(self):
+        print("You have to reach " + self.clr_name + " with shape " + self.shp)

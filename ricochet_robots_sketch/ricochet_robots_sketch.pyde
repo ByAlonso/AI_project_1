@@ -43,10 +43,14 @@ def keyPressed():
     if selected_robot:
         print(keyCode)
         if keyCode == UP:
-            selected_robot.move_robot(grid.grid,'up',1)
+            while selected_robot.move_robot(grid.grid,'up',1):
+                pass
         if keyCode == DOWN:
-            selected_robot.move_robot(grid.grid,'down',1)
+            while selected_robot.move_robot(grid.grid,'down',1):
+                pass
         if keyCode == RIGHT:
-            selected_robot.move_robot(grid.grid,'right',1)
+            while selected_robot.move_robot(grid.grid,'right',1):
+                pass
         if keyCode == LEFT:
-            selected_robot.move_robot(grid.grid,'left',1)
+            while selected_robot.move_robot(grid.grid,'left',1):
+                pass
