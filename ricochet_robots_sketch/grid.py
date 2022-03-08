@@ -48,6 +48,8 @@ class Grid:
         return selected_robot
                 
     def retrieve_goal(self):
+        '''self.new_goal = self.goals.pop(3)
+        self.new_goal.console_goal()'''
         if len(self.goals) > 0:
             rand = random.randint(0,len(self.goals) - 1)
             self.new_goal = self.goals.pop(rand)
@@ -73,8 +75,6 @@ class Grid:
                 robot_dict[colors[n]] = Robot(rand_x,rand_y,50,colors[n])
                 self.grid[rand_y][rand_x].set_robot(robot_dict[colors[n]])
                 n += 1
-        for x in robot_dict:
-            print(robot_dict[x].x_pos,robot_dict[x].y_pos)
         return robot_dict
             
     def print_restricted_area(self):

@@ -1,5 +1,6 @@
 from grid import Grid
 from robot import Robot
+from bfs import BFS
 import time
 
 n_tiles = 16
@@ -11,6 +12,15 @@ def setup():
     background(120)
     grid = Grid(n_tiles,n_tiles)
     grid.print_grid()
+    bfs = BFS(grid)
+    current_node = bfs.generate_tree()
+    current_node.state.print_state()
+    actions = []
+    actions.append(current_node.actions)
+    while current_node.parent != None:
+        current_node = current_node.parent
+        actions.append(current_node.actions)
+    print(actions)
     
     
 def draw():
@@ -21,7 +31,6 @@ def mouseClicked():
     x_coord = mouseX // 50
     y_coord = mouseY //50
     selected_robot = grid.select_robot(x_coord,y_coord)
-    print(grid.robots)
     for r in grid.robots:
         grid.robots[r].forbidden_move = None
         
