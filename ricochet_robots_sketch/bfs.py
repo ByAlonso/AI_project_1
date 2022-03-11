@@ -40,10 +40,10 @@ class BFS():
     
     def generate_child(self,dir,robot,state):
         state_copy = copy.deepcopy(state)
-        if state_copy.robots[robot].can_move(state_copy.grid,dir):
+        if state_copy.robots[robot].can_move(state_copy.grid,dir,state_copy.robots):
             state_copy.set_actions(robot,dir)
             state_copy.grid_.select_robot(state_copy.robots[robot].x_pos,state_copy.robots[robot].y_pos)
-            while state_copy.robots[robot].move_robot(state_copy.grid,dir):
+            while state_copy.robots[robot].move_robot(state_copy.grid,dir,state_copy.robots):
                 pass
             state_copy.check_if_goal()
             return state_copy

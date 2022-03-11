@@ -14,6 +14,7 @@ class Grid:
         self.goals = []
         self.grid = self.create_grid()
         self.robots = self.generate_robots()
+        # self.robots = self.generate_robots_fixed() #test
         
         self.new_goal = None
         self.retrieve_goal()
@@ -28,10 +29,11 @@ class Grid:
         for row in self.grid:
             for tile in row:
                 tile.print_tile()
-                if tile.robot is not None:
-                    tile.robot.print_robot() 
+                # if tile.robot is not None:
+                #     tile.robot.print_robot() 
         self.print_restricted_area()     
-        self.print_robot()        
+        self.print_robot() 
+               
     def print_robot(self):
         for row in self.grid:
             for tile in row:
@@ -69,17 +71,20 @@ class Grid:
     def generate_robots(self):
         restricted_area = [[7,7],[8,8],[7,8],[8,7]]
         colors = ['green','blue','yellow','red']
+        occupied = []
         robot_dict = {}
         n = 0
         while(n < self.robot_number):
             rand_x = random.randint(0,15)
             rand_y = random.randint(0,15)
-            if not self.grid[rand_y][rand_x].is_goal and not self.grid[rand_y][rand_x].is_occupied and [rand_x,rand_y] not in restricted_area:
+            if not self.grid[rand_y][rand_x].is_goal and [rand_x,rand_y] not in occupied and [rand_x,rand_y] not in restricted_area:
+                occupied.append([rand_x,rand_y])
                 robot_dict[colors[n]] = Robot(rand_x,rand_y,50,colors[n])
                 self.grid[rand_y][rand_x].set_robot(robot_dict[colors[n]])
                 n += 1
         return robot_dict
-            
+        
+    
     def print_restricted_area(self):
         fill(0)
         square(50 * 7, 50 * 7, 100)    
