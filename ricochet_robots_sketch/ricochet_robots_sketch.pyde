@@ -2,6 +2,7 @@ from grid import Grid
 from robot import Robot
 from bfs import BFS
 from dfs import DFS
+from a_star import AStar
 import time
 
 
@@ -23,7 +24,8 @@ def setup():
     grid.print_grid()
     
     methods = {'dfs': DFS(grid, 20),
-               'bfs': BFS(grid)}
+               'bfs': BFS(grid),
+               'a_star': AStar(grid)}
         
     
     
