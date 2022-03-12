@@ -7,48 +7,50 @@ import time
 
 n_tiles = 16
 margin = 50
+
+# AI
 n = 1
-run_AI = True
-global selected_robot, path, dfs
+step = 0
+algo = 'bfs'
+
+selected_robot = None
+global path, methods
 def setup():
-    global grid, g_robot, path, dfs
+    global grid, g_robot, path, dfs, methods
     size(800, 800)
     background(120)
     grid = Grid(n_tiles,n_tiles)
     grid.print_grid()
-    delay(1000)
     
-    # bfs = BFS(grid)
-    # current_node = bfs.generate_tree()
-    # current_node.state.print_state()
-    # actions = []
-    # actions.append(current_node.state.action)
-    # while current_node.parent != None:
-    #     current_node = current_node.parent
-    #     actions.append(current_node.state.action)
-    # actions.reverse()
-    # print(actions)
-    
-    dfs = DFS(grid, 7)
-    
+    methods = {'dfs': DFS(grid, 20),
+               'bfs': BFS(grid)}
+        
     
     
 def draw():
-    global n, path, run_AI
+    global n, path, step
     grid.print_grid()
     
-    if run_AI:
-        dfs.set_goal(grid.new_goal, grid.robots)
-        path = dfs.search(grid.robots)
+    if step == 0:
+        methods[algo].set_goal(grid.new_goal, grid.robots)
+        t0 = time.time()
+        path = methods[algo].search(grid.robots)
         path = path[::-1] if path != None else None
-        print(path)
-        run_AI = False
+        print(path, time.time()-t0)
+        step = 1
     
-    if path != None and n < len(path):
-        col, dir = path[n].split(' ')
-        if not grid.robots[col].move_robot(grid.grid, dir, grid.robots, 0.1):
-            n += 1
-        
+    elif step == 1:
+        if path != None and n < len(path):
+            col, dir = path[n].split(' ')
+            if not grid.robots[col].move_robot(grid.grid, dir, grid.robots, 0.1):
+                n += 1
+        else:
+            arrived = grid.check_goal(grid.robots[grid.new_goal.clr_name])
+            step, n = (0, 1) if arrived == True and grid.new_goal else (2, n)
+
+    elif step == 2:
+        print('End of game')
+        step = 3    
     
 def mouseClicked():
     global selected_robot

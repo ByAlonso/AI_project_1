@@ -60,13 +60,16 @@ class Grid:
             self.new_goal = self.goals.pop(rand)
             self.new_goal.console_goal()
         else:
+            self.new_goal = None
             self.game_over()
         
     def check_goal(self,robot):
+        arrived = False
         if robot.x_pos == self.new_goal.x_pos and robot.y_pos == self.new_goal.y_pos and robot.name == self.new_goal.clr_name:
             self.retrieve_goal()
+            arrived = True
             #Add score to player
-        pass
+        return arrived
         
     def generate_robots(self):
         restricted_area = [[7,7],[8,8],[7,8],[8,7]]
