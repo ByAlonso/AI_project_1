@@ -13,6 +13,10 @@ class BFS():
                                 
     def set_goal(self, goal, robots):
         self.goal = goal
+        
+    def th_search(self, robots, result):
+        path = self.search(robots)
+        result['bfs'] = (len(path)-1, path)
 
     def search(self, robots):
         # Initial State

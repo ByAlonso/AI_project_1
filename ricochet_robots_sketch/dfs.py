@@ -28,9 +28,13 @@ class DFS():
                  self.robot_clr[2]:((robots[self.robot_clr[2]].x_pos - self.goal_x)**2 + (robots[self.robot_clr[2]].y_pos - self.goal_y)**2)}
         self.robot_clr = [k for k, v in sorted(dists.items(), key=lambda item: item[1])]
         self.robot_clr.insert(0, self.goal_clr)
-                
+    
+    def th_search(self, robots, result):
+        path = self.search(robots)
+        result['dfs'] = (len(path)-1, path)
+        
                                 
-    def search(self, robots, action = '', n = 0):       
+    def search(self, robots, action = '', n = 0):      
         # Create the state as a copy of the robots
         state = deepcopy(robots)
                         
