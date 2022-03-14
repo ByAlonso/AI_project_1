@@ -12,10 +12,10 @@ margin = 50
 
 # AI
 n = 1 
-step = 0
 algo = 'bfs'
 
-# Gameplay
+# Gameplay variables
+step = 0
 results = {}
 best = []
 selected_robot = None
@@ -35,13 +35,14 @@ def setup():
                'a_star': AStar(grid)}
         
     
-
-t0 = 0
+# Aux global variables
 my_thread = None
 start_timer = 0
+
 def draw():
-    global n, path, step, results, t0, my_thread, start_timer, best
+    global n, path, step, results, my_thread, start_timer, best
     
+    # Drawing game and goal
     background(120)
     grid.print_grid()
     if grid.new_goal:
@@ -49,34 +50,39 @@ def draw():
         text('Goal:', 20, 890);
         grid.new_goal.print_goal(3, 17)
     
+    # Setup the algorithm
     if step == 0:
-        results = {}
+        # Clean results
+        results = {} 
         # Set goal and start threads
         methods[algo].set_goal(grid.new_goal, grid.robots)
-        # Thread
         my_thread = KThread(target=methods[algo].th_search, args = (grid.robots, results))
         
-        t0 = time.time()
         my_thread.start()
         step += 1
         print('Click on the game and write the number of moves + enter')
         start_timer = time.time()
     
+    # Coming to a solution and input
     elif step == 1:
+        # While there is no result
         if not results:
             start_timer = time.time()
+        # Start timer
         else:
             best = sorted(results.items(), key=lambda item: item[1][0])
             print_plays(best)
                 
             time_remaining = round(wait_time - (time.time() - start_timer))
+            # Print remaining time
             if time_remaining > 0:
                 textSize(100)
                 text(str(time_remaining), 550, 900); 
                 if len(results) >= 2:
                     start_timer = 0
+            # Set path to be the best path
             else:
-                # TODO: Kill Threads
+                # Kill Thread
                 if my_thread.isAlive():
                     my_thread.terminate()
                 path = best[0][1][1]
@@ -84,10 +90,9 @@ def draw():
                 step += 2 if best[0][0] == 'player' else 1
                 print(best[0])
                 
-        
+    # AI playing
     elif step == 2:
         print_plays(best)
-        # AI plays
         if path != None and n < len(path):
             col, dir = path[n].split(' ')
             if not grid.robots[col].move_robot(grid.grid, dir, grid.robots, 0.1):
@@ -98,15 +103,15 @@ def draw():
             arrived = grid.check_goal(grid.robots[grid.new_goal.clr_name])
             step, n = (0, 1) if arrived == True and grid.new_goal else (4, n)
     
+    # Player playing
     elif step == 3:
         print_plays(best)
-        # Player plays
         player_goal = grid.check_goal(grid.robots[grid.new_goal.clr_name])
         if player_goal:
             grid.select_robot(7,7)
             step = 0 if grid.new_goal else 4
             
-        
+    # Game Ended
     elif step == 4:
         print('End of game')
         step = 5
@@ -121,15 +126,15 @@ def mouseClicked():
         
 def keyPressed():  
     global selected_robot, step, num_moves, results
-    if step == 1:
+    
+    if step == 1 and isinstance(key, unicode):
         if key.isnumeric():
             num_moves += key
         elif key == '\n':
             results['player'] = (int(num_moves), [])
             num_moves = ''
-            
-        
     
+    # Only allow moving in the player move step
     if selected_robot and step == 3:
         if keyCode == UP:
             while selected_robot.move_robot(grid.grid,'up', grid.robots, 1):
