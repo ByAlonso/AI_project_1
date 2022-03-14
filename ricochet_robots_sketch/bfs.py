@@ -24,7 +24,7 @@ class BFS():
         init_node = Node(init_state, focus = self.goal.clr_name)
 
         # Search
-        visited = [init_node]
+        visited = {}
         queue = [init_node]
         while queue:
             current_node = queue.pop(0)
@@ -33,10 +33,9 @@ class BFS():
                 if child.state.is_goal:
                     path = self.get_path(child)
                     return path
-                if not self.node_is_visited(visited, child):
-                    visited.append(child)
+                if not visited.get(child.id, False):
                     queue.append(child)
-                
+                    visited[child.id] = True
                             
     def generate_children(self,node):
         children = []
@@ -65,8 +64,3 @@ class BFS():
             actions.append(current_node.state.action)
         return actions
     
-    def node_is_visited(self, visited, node):
-        for v in visited:
-            if node.id == v.id:
-                return True
-        return False

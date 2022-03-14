@@ -10,7 +10,7 @@ class DFS():
         self.actions = ['up','left','down','right']
         self.robot_clr = ['green','blue','yellow','red']
         
-        self.visited = []
+        self.visited = {}
                         
 
     def set_goal(self, goal, robots):
@@ -18,7 +18,7 @@ class DFS():
         self.goal_x = goal.x_pos
         self.goal_y = goal.y_pos
         
-        self.visited = []
+        self.visited = {}
         
         # Optimize robot order
         i = self.robot_clr.index(self.goal_clr)
@@ -51,10 +51,11 @@ class DFS():
     
         # See if state was already visited
         id = self.def_id(state, self.goal_clr)
-        if id in self.visited:
+        if self.visited.get(id, False):
             return None
         else:
-            self.visited.append(id)
+            self.visited[id] = True
+
 
         
         # For every possible action run search

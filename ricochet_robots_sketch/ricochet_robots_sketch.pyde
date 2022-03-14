@@ -30,7 +30,7 @@ def setup():
     grid = Grid(n_tiles,n_tiles)
     grid.print_grid()
     
-    methods = {'dfs': DFS(grid, 20),
+    methods = {'dfs': DFS(grid, 15),
                'bfs': BFS(grid),
                'a_star': AStar(grid)}
         
@@ -56,11 +56,12 @@ def draw():
         results = {} 
         # Set goal and start threads
         methods[algo].set_goal(grid.new_goal, grid.robots)
-        my_thread = KThread(target=methods[algo].th_search, args = (grid.robots, results))
         
+        my_thread = KThread(target=methods[algo].th_search, args = (grid.robots, results))
         my_thread.start()
-        step += 1
+        
         print('Click on the game and write the number of moves + enter')
+        step += 1
         start_timer = time.time()
     
     # Coming to a solution and input
@@ -95,7 +96,7 @@ def draw():
         print_plays(best)
         if path != None and n < len(path):
             col, dir = path[n].split(' ')
-            if not grid.robots[col].move_robot(grid.grid, dir, grid.robots, 0.1):
+            if not grid.robots[col].move_robot(grid.grid, dir, grid.robots, 0.2):
                 n += 1
         elif path == None:
             print('Algorithm did not find path')
