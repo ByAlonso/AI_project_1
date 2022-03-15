@@ -6,15 +6,10 @@ class Node():
         
     # Define ID to easily compare if this state was already visited
     def def_id(self, focus):
-        g = 'g' if focus == None or focus == 'green' else 'x'
-        b = 'b' if focus == None or focus == 'blue' else 'x'
-        y = 'y' if focus == None or focus == 'yellow' else 'x'
-        r = 'r' if focus == None or focus == 'red' else 'x'
-        id = '{}{:02d}{:02d}{}{:02d}{:02d}{}{:02d}{:02d}{}{:02d}{:02d}'.format(
-                                               g, self.state.robots['green'].x_pos, self.state.robots['green'].y_pos,
-                                               b, self.state.robots['blue'].x_pos, self.state.robots['blue'].y_pos,
-                                               y, self.state.robots['yellow'].x_pos, self.state.robots['yellow'].y_pos,
-                                               r, self.state.robots['red'].x_pos, self.state.robots['red'].y_pos)
+        id = ''
+        for robot_color, robot in self.state.robots.items():
+            c = robot_color[0] if focus == None or focus == robot_color else 'x'
+            id += '{}{:02d}{:02d}'.format(c, robot.x_pos, robot.y_pos)
         return id
         
                         

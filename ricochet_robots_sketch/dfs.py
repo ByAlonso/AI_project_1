@@ -95,17 +95,11 @@ class DFS():
         
     # Define ID to easily compare if this state was already visited
     def def_id(self, robots, focus):
-        g = 'g' if focus == None or focus == 'green' else 'd'
-        b = 'b' if focus == None or focus == 'blue' else 'd'
-        y = 'y' if focus == None or focus == 'yellow' else 'd'
-        r = 'r' if focus == None or focus == 'red' else 'd'
-        id = '{}{:02d}{:02d}{}{:02d}{:02d}{}{:02d}{:02d}{}{:02d}{:02d}'.format(
-                                               g, robots['green'].x_pos, robots['green'].y_pos,
-                                               b, robots['blue'].x_pos, robots['blue'].y_pos,
-                                               y, robots['yellow'].x_pos,robots['yellow'].y_pos,
-                                               r, robots['red'].x_pos, robots['red'].y_pos)
+        id = ''
+        for robot_color, robot in robots.items():
+            c = robot_color[0] if focus == None or focus == robot_color else 'x'
+            id += '{}{:02d}{:02d}'.format(c, robot.x_pos, robot.y_pos)
         return id
-
     
     
     
