@@ -1,6 +1,5 @@
 class Tile:
     def __init__(self,x_pos, y_pos):
-        self.is_occupied = False
         self.robot = None
         self.goal = None
         self.is_goal = False
@@ -23,7 +22,7 @@ class Tile:
         
     def set_robot(self,robot):
         self.robot = robot
-        self.is_occupied = True if robot is not None else False
+        # self.is_occupied = True if robot is not None else False
         
     def print_tile(self):
         strokeWeight(0)

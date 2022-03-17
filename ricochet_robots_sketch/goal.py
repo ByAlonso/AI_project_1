@@ -19,6 +19,8 @@ class Goal:
             stroke(self.clr)
             line(50 * x_pos + 10,50 * y_pos + 10,50 * x_pos + 40,50 * y_pos + 40)
             line(50 * x_pos + 10,50 * y_pos + 40,50 * x_pos + 40,50 * y_pos + 10)
+        if self.shp == 'circle':
+            circle(50 * x_pos + 25,50 * y_pos + 25,30)
         stroke(153)
         fill(255)
     def console_goal(self):
