@@ -8,7 +8,7 @@ class BFS():
     def __init__(self,grid):
         self.grid = copy.deepcopy(grid.grid)
         self.actions = ['up','left','down','right']
-        self.robot_clr = ['green','blue','yellow','red']
+        self.robot_clr = ['green','blue','yellow','red', 'gray']
         
                                 
     def set_goal(self, goal, robots):

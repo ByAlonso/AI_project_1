@@ -8,7 +8,7 @@ class DFS():
                 
         # Possible actions and robots
         self.actions = ['up','left','down','right']
-        self.robot_clr = ['green', 'blue','yellow','red']
+        self.robot_clr = ['green', 'blue','yellow','red', 'gray']
         
         self.visited = {}
                         
@@ -26,6 +26,7 @@ class DFS():
         dists = {self.robot_clr[0]:((robots[self.robot_clr[0]].x_pos - self.goal_x)**2 + (robots[self.robot_clr[0]].y_pos - self.goal_y)**2),
                  self.robot_clr[1]:((robots[self.robot_clr[1]].x_pos - self.goal_x)**2 + (robots[self.robot_clr[1]].y_pos - self.goal_y)**2),
                  self.robot_clr[2]:((robots[self.robot_clr[2]].x_pos - self.goal_x)**2 + (robots[self.robot_clr[2]].y_pos - self.goal_y)**2),
+                 self.robot_clr[3]:((robots[self.robot_clr[3]].x_pos - self.goal_x)**2 + (robots[self.robot_clr[3]].y_pos - self.goal_y)**2),
                  }
         self.robot_clr = [k for k, v in sorted(dists.items(), key=lambda item: item[1])]
         self.robot_clr.insert(0, self.goal_clr)

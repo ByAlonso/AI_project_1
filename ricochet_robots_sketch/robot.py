@@ -1,4 +1,4 @@
-COLORS = {'red': color(255,0,0), 'blue': color(0,0,255), 'green': color(0,255,0), 'yellow': color(255,255,0)}
+COLORS = {'red': color(255,0,0), 'blue': color(0,0,255), 'green': color(0,255,0), 'yellow': color(255,255,0), 'gray': color(127,127,127)}
 FORBIDDEN = {'up':'down','left':'right','right':'left','down':'up'}
 import time
 def is_integer(a, rel_tol=1e-9, abs_tol=0.0):

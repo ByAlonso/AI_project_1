@@ -10,7 +10,7 @@ class Grid:
     def __init__(self,cols,rows):
         self.cols = cols
         self.rows = rows
-        self.robot_number = 4
+        self.robot_number = 5
         self.goals = []
         self.grid = self.create_grid()
         self.robots = self.generate_robots()
@@ -77,7 +77,7 @@ class Grid:
         occupied = []
         robot_dict = {}
         n = 0
-        while(n < self.robot_number):
+        while(n < len(colors)):
             rand_x = random.randint(0,15)
             rand_y = random.randint(0,15)
             if not self.grid[rand_y][rand_x].is_goal and [rand_x,rand_y] not in occupied and [rand_x,rand_y] not in restricted_area:
