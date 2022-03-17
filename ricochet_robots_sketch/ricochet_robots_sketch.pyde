@@ -12,7 +12,7 @@ margin = 50
 
 # AI
 n = 1 
-algo = 'bfs'
+algo = ['a_star']
 
 # Gameplay variables
 step = 0
@@ -30,13 +30,13 @@ def setup():
     grid = Grid(n_tiles,n_tiles)
     grid.print_grid()
     
-    methods = {'dfs': DFS(grid, 15),
+    methods = {'dfs': DFS(grid, 200),
                'bfs': BFS(grid),
                'a_star': AStar(grid)}
         
     
 # Aux global variables
-my_thread = None
+my_thread = []
 start_timer = 0
 
 def draw():
@@ -54,12 +54,16 @@ def draw():
     if step == 0:
         # Clean results
         results = {} 
-        # Set goal and start threads
-        methods[algo].set_goal(grid.new_goal, grid.robots)
+        my_thread = []
         
-        my_thread = KThread(target=methods[algo].th_search, args = (grid.robots, results))
-        my_thread.start()
+        for a in algo:
+            # Set goal and start threads
+            methods[a].set_goal(grid.new_goal, grid.robots)
+            my_thread.append(KThread(target=methods[a].th_search, args = (grid.robots, results)))
         
+        for t in my_thread:
+            t.start()
+            
         print('Click on the game and write the number of moves + enter')
         step += 1
         start_timer = time.time()
@@ -79,13 +83,14 @@ def draw():
             if time_remaining > 0:
                 textSize(100)
                 text(str(time_remaining), 550, 900); 
-                if len(results) >= 2:
+                if len(results) >= len(algo) + 1:
                     start_timer = 0
             # Set path to be the best path
             else:
                 # Kill Thread
-                if my_thread.isAlive():
-                    my_thread.terminate()
+                for t in my_thread:
+                    if t.isAlive():
+                        t.terminate()
                 path = best[0][1][1]
                 path = path[::-1] if path != None else None
                 step += 2 if best[0][0] == 'player' else 1

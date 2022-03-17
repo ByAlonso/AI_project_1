@@ -1,8 +1,9 @@
 class Node():
-    def __init__(self, state, parent=None, focus = None):
+    def __init__(self, state, parent=None, focus = None, depth = 0):
         self.state = state
         self.parent = parent
         self.id = self.def_id(focus)
+        self.depth = depth
         
     # Define ID to easily compare if this state was already visited
     def def_id(self, focus):

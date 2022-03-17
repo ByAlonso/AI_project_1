@@ -73,7 +73,7 @@ class Grid:
         
     def generate_robots(self):
         restricted_area = [[7,7],[8,8],[7,8],[8,7]]
-        colors = ['green','blue','yellow','red']
+        colors = ['green','blue','yellow','red', 'gray']
         occupied = []
         robot_dict = {}
         n = 0
@@ -220,11 +220,13 @@ class Grid:
         grid[15][12].set_walls(F,T,T,F)
         
     def create_goals(self,grid):
-        self.goals.extend([Goal('red','cross',1,2),Goal('blue','cross',12,6),Goal('green','square',4,9),Goal('yellow','square',14,14)])
-        grid[2][1].set_goal(self.goals[0])
-        grid[6][12].set_goal(self.goals[1])
-        grid[9][4].set_goal(self.goals[2])
-        grid[14][14].set_goal(self.goals[3])
+        self.goals.extend([Goal('red','cross',1,2), Goal('blue', 'square', 6, 1), Goal('yellow', 'circle', 3, 6), Goal('green', 'triangle', 6, 5),
+                           Goal('yellow', 'triangle', 9, 1), Goal('green', 'circle', 14, 2), Goal('red', 'square', 10, 4), Goal('blue','cross',12,6),
+                           Goal('red', 'circle', 1, 13), Goal('yellow', 'cross', 3, 14), Goal('green','square',4,9), Goal('blue', 'triangle', 7, 12),
+                           Goal('yellow','square',14,14), Goal('red', 'triangle', 8, 10), Goal('blue', 'circle', 9, 13), Goal('green', 'cross', 13, 11)])
+        
+        for g in self.goals:
+            grid[g.y_pos][g.x_pos].set_goal(g)
         
     def game_over(self):
         print("You have no more chips to pick up")

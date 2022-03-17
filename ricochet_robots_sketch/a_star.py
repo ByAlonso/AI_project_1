@@ -1,4 +1,7 @@
 import copy
+from tree import Node
+from state import State
+
 
 class AStar():
     def __init__(self,grid):
@@ -8,16 +11,63 @@ class AStar():
     
     def set_goal(self, goal, robots):
         self.goal = goal
-        
         self.heuristics = self.compute_heuristic(goal)
-    
         
-    
+        
+    def th_search(self, robots, result):
+        path = self.search(robots)
+        result['a_star'] = (len(path)-1, path)    
+
     def search(self, robots):
-        # Do Search
+        # Initial State
+        init_state = State(copy.deepcopy(robots))
+        init_node = Node(init_state, focus = self.goal.clr_name, depth = 0)
+
+        goal_robot = robots[self.goal.clr_name]
+        
+        # Search
+        visited = {}
+        queue = [(init_node, init_node.depth + self.heuristics[goal_robot.y_pos][goal_robot.x_pos])]
+        while queue:
+            min_ind = queue.index(min(queue, key=lambda item: item[1]))
+            current_node = queue.pop(min_ind)[0]
+            current_children = self.generate_children(current_node)
+            for child in current_children:
+                if child.state.is_goal:
+                    path = self.get_path(child)
+                    return path
+                if not visited.get(child.id, False):
+                    goal_robot = child.state.robots[self.goal.clr_name]
+                    queue.append((child, child.depth + self.heuristics[goal_robot.y_pos][goal_robot.x_pos]))
+                    visited[child.id] = True
+                            
+    def generate_children(self,node):
+        children = []
+        for action in self.actions:
+            for colour in self.robot_clr:
+                child = self.generate_child(action,colour,node.state)
+                if child is not None:
+                    children.append(Node(child,node, focus = self.goal.clr_name, depth = node.depth+1))
+        return children
+    
+    def generate_child(self,dir,robot,state):
+        if state.robots[robot].can_move(self.grid,dir,state.robots):
+            state_copy = copy.deepcopy(state)
+            state_copy.set_actions(robot,dir)
+            while state_copy.robots[robot].move_robot(self.grid,dir,state_copy.robots):
+                pass
+            state_copy.check_if_goal(self.goal)
+            return state_copy
         return None
     
-    
+    def get_path(self, current_node):
+        actions = []
+        actions.append(current_node.state.action)
+        while current_node.parent != None:
+            current_node = current_node.parent
+            actions.append(current_node.state.action)
+        return actions
+
 
     # Pre-compute heuristic for every tile given goal
     def compute_heuristic(self, goal, grid_size=16):
@@ -28,10 +78,10 @@ class AStar():
         empty_grid[goal_y][goal_x] = 0
         
         # Middle Part
-        empty_grid[7][7] = 0
-        empty_grid[7][8] = 0
-        empty_grid[8][7] = 0
-        empty_grid[8][8] = 0
+        empty_grid[7][7] = 99999
+        empty_grid[7][8] = 99999
+        empty_grid[8][7] = 99999
+        empty_grid[8][8] = 99999
 
         still_neg = True
         v = 0
@@ -44,7 +94,6 @@ class AStar():
                         still_neg = True
                     if empty_grid[i][j] == v:
                         for dir in self.actions:
-                            step = 1 if dir == 'right' or dir == 'down' else -1
                             y, x = i, j
                             while 0 <= y <= 15 and 0 <= x <= 15:
                                 # Check for walls

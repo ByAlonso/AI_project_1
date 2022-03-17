@@ -8,7 +8,7 @@ class DFS():
                 
         # Possible actions and robots
         self.actions = ['up','left','down','right']
-        self.robot_clr = ['green','blue','yellow','red']
+        self.robot_clr = ['green', 'blue','yellow','red']
         
         self.visited = {}
                         
@@ -25,7 +25,8 @@ class DFS():
         self.robot_clr.pop(i)
         dists = {self.robot_clr[0]:((robots[self.robot_clr[0]].x_pos - self.goal_x)**2 + (robots[self.robot_clr[0]].y_pos - self.goal_y)**2),
                  self.robot_clr[1]:((robots[self.robot_clr[1]].x_pos - self.goal_x)**2 + (robots[self.robot_clr[1]].y_pos - self.goal_y)**2),
-                 self.robot_clr[2]:((robots[self.robot_clr[2]].x_pos - self.goal_x)**2 + (robots[self.robot_clr[2]].y_pos - self.goal_y)**2)}
+                 self.robot_clr[2]:((robots[self.robot_clr[2]].x_pos - self.goal_x)**2 + (robots[self.robot_clr[2]].y_pos - self.goal_y)**2),
+                 }
         self.robot_clr = [k for k, v in sorted(dists.items(), key=lambda item: item[1])]
         self.robot_clr.insert(0, self.goal_clr)
     
@@ -51,10 +52,11 @@ class DFS():
     
         # See if state was already visited
         id = self.def_id(state, self.goal_clr)
-        if self.visited.get(id, False):
+        vis_aux = self.visited.get(id, (0, False))
+        if vis_aux[1] and n > vis_aux[0]:
             return None
         else:
-            self.visited[id] = True
+            self.visited[id] = (n, True)
 
 
         
