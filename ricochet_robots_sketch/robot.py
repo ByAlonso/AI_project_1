@@ -19,6 +19,34 @@ class Robot:
         self.i = x_pos
         self.j = y_pos
     
+    def move_robot_instant(self, grid, dir, robots, step=1):
+        grid[self.y_pos][self.x_pos].set_robot(None)
+        move = 0
+        while self.can_move(grid,dir,robots):
+            if dir == 'right':
+                move = step if self.can_move(grid,dir,robots) else 0
+                self.i += move
+            elif dir == 'left':
+                move = step if self.can_move(grid,dir,robots) else 0
+                self.i -= move
+            elif dir == 'up':
+                move = step if self.can_move(grid,dir,robots) else 0
+                self.j -= move
+            elif dir == 'down':
+                move = step if self.can_move(grid,dir,robots) else 0
+                self.j += move
+            
+        self.x_pos = int(round(self.i)) if is_integer(self.i) else self.x_pos
+        self.y_pos = int(round(self.j)) if is_integer(self.j) else self.y_pos
+        grid[self.y_pos][self.x_pos].set_robot(self)
+        if move == 0:
+            return False
+        else:
+            for r in robots:
+                robots[r].forbidden_move = None
+            self.forbidden_move = FORBIDDEN[dir]        
+            return True
+              
     def move_robot(self, grid, dir, robots, step=1):
         grid[self.y_pos][self.x_pos].set_robot(None)
         move = 0
@@ -34,15 +62,17 @@ class Robot:
         elif dir == 'down':
             move = step if self.can_move(grid,dir,robots) else 0
             self.j += move
-        
+            
         self.x_pos = int(round(self.i)) if is_integer(self.i) else self.x_pos
         self.y_pos = int(round(self.j)) if is_integer(self.j) else self.y_pos
         grid[self.y_pos][self.x_pos].set_robot(self)
         if move == 0:
             return False
         else:
-            self.forbidden_move = FORBIDDEN[dir]
-            return True        
+            for r in robots:
+                robots[r].forbidden_move = None
+            self.forbidden_move = FORBIDDEN[dir]   
+            return True          
     
     def can_move(self,grid,dir,robots):
         occupied = [[r.x_pos, r.y_pos] for r in robots.values()]

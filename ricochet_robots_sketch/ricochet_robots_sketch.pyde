@@ -12,7 +12,7 @@ margin = 50
 
 # AI
 n = 1 
-algo = ['a_star', 'bfs']
+algo = ['dfs',"a_star","bfs"]
 
 # Gameplay variables
 step = 0
@@ -50,8 +50,12 @@ def draw():
         text('Goal:', 20, 890);
         grid.new_goal.print_goal(3, 17)
     
+    
     # Setup the algorithm
     if step == 0:
+        for r in grid.robots:
+            print(grid.robots[r].forbidden_move)
+            grid.robots[r].forbidden_move = None
         # Clean results
         results = {} 
         my_thread = []

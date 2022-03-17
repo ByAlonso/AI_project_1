@@ -63,4 +63,3 @@ class BFS():
             current_node = current_node.parent
             actions.append(current_node.state.action)
         return actions
-    
