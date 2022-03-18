@@ -154,11 +154,10 @@ def keyPressed():
                 pass
         if keyCode == RIGHT:
             while selected_robot.move_robot(grid.grid,'right', grid.robots, 1):
-                pass
+                pass    
         if keyCode == LEFT:
             while selected_robot.move_robot(grid.grid,'left', grid.robots, 1):
                 pass
-        # grid.check_goal(selected_robot)
 
 def print_plays(best):
     for i, (k, v) in enumerate(best):
