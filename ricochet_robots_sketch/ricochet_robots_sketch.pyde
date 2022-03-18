@@ -12,7 +12,7 @@ margin = 50
 
 # AI
 n = 1 
-algo = ["bfs","a_star"]
+algo = ["bfs","a_star","dfs"]
 
 # Gameplay variables
 step = 0

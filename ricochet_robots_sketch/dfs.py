@@ -77,8 +77,7 @@ class DFS():
     def move_robot(self, robots, action):
         if action != '':
             col, dir = action.split(' ')
-            while robots[col].move_robot(self.board, dir, robots):
-                pass
+            robots[col].move_robot_instant(self.board, dir, robots)
         
     def check_goal(self,robots):
         robot = robots[self.goal_clr]
