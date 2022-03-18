@@ -29,8 +29,6 @@ class Grid:
         for row in self.grid:
             for tile in row:
                 tile.print_tile()
-                # if tile.robot is not None:
-                #     tile.robot.print_robot() 
         self.print_restricted_area()     
         self.print_robot() 
                
@@ -53,8 +51,6 @@ class Grid:
         return selected_robot
                 
     def retrieve_goal(self):
-        '''self.new_goal = self.goals.pop(3)
-        self.new_goal.console_goal()'''
         if len(self.goals) > 0:
             rand = random.randint(0,len(self.goals) - 1)
             self.new_goal = self.goals.pop(rand)

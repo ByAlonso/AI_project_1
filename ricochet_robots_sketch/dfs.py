@@ -92,7 +92,7 @@ class DFS():
         for robot in self.robot_clr:
             for dir in self.actions:
                 mov = '{} {}'.format(robot, dir)
-                if robots[robot].can_move(self.board, dir, robots):
+                if robots[robot].can_move(self.board, dir, robots,robots[robot].x_pos,robots[robot].y_pos):
                     movements.append(mov)
         return movements
         

@@ -22,18 +22,18 @@ class Robot:
     def move_robot_instant(self, grid, dir, robots, step=1):
         grid[self.y_pos][self.x_pos].set_robot(None)
         move = 0
-        while self.can_move(grid,dir,robots):
+        while self.can_move(grid,dir,robots,int(round(self.i)),int(round(self.j))):
             if dir == 'right':
-                move = step if self.can_move(grid,dir,robots) else 0
+                move = step if self.can_move(grid,dir,robots,int(round(self.i)),int(round(self.j))) else 0
                 self.i += move
             elif dir == 'left':
-                move = step if self.can_move(grid,dir,robots) else 0
+                move = step if self.can_move(grid,dir,robots,int(round(self.i)),int(round(self.j))) else 0
                 self.i -= move
             elif dir == 'up':
-                move = step if self.can_move(grid,dir,robots) else 0
+                move = step if self.can_move(grid,dir,robots,int(round(self.i)),int(round(self.j))) else 0
                 self.j -= move
             elif dir == 'down':
-                move = step if self.can_move(grid,dir,robots) else 0
+                move = step if self.can_move(grid,dir,robots,int(round(self.i)),int(round(self.j))) else 0
                 self.j += move
             
         self.x_pos = int(round(self.i)) if is_integer(self.i) else self.x_pos
@@ -51,16 +51,16 @@ class Robot:
         grid[self.y_pos][self.x_pos].set_robot(None)
         move = 0
         if dir == 'right':
-            move = step if self.can_move(grid,dir,robots) else 0
+            move = step if self.can_move(grid,dir,robots,self.x_pos,self.y_pos) else 0
             self.i += move
         elif dir == 'left':
-            move = step if self.can_move(grid,dir,robots) else 0
+            move = step if self.can_move(grid,dir,robots,self.x_pos,self.y_pos) else 0
             self.i -= move
         elif dir == 'up':
-            move = step if self.can_move(grid,dir,robots) else 0
+            move = step if self.can_move(grid,dir,robots,self.x_pos,self.y_pos) else 0
             self.j -= move
         elif dir == 'down':
-            move = step if self.can_move(grid,dir,robots) else 0
+            move = step if self.can_move(grid,dir,robots,self.x_pos,self.y_pos) else 0
             self.j += move
             
         self.x_pos = int(round(self.i)) if is_integer(self.i) else self.x_pos
@@ -74,7 +74,7 @@ class Robot:
             self.forbidden_move = FORBIDDEN[dir]   
             return True          
     
-    def can_move(self,grid,dir,robots):
+    def can_move_(self,grid,dir,robots):
         occupied = [[r.x_pos, r.y_pos] for r in robots.values()]
         if dir == 'right' and dir != self.forbidden_move:
             return True if self.x_pos + 1 < 16 and (grid[self.y_pos][self.x_pos].has_right_wall or [self.x_pos + 1, self.y_pos] in occupied) == False else False
@@ -84,6 +84,17 @@ class Robot:
             return True if self.y_pos - 1 >= 0 and (grid[self.y_pos][self.x_pos].has_up_wall or [self.x_pos, self.y_pos - 1]  in occupied) == False else False
         elif dir == 'down' and dir != self.forbidden_move:
             return True if self.y_pos + 1 < 16 and (grid[self.y_pos][self.x_pos].has_down_wall or [self.x_pos, self.y_pos + 1]  in occupied) == False else False
+        
+    def can_move(self,grid,dir,robots,my_robot_x,my_robot_y):
+        occupied = [[r.x_pos, r.y_pos] for r in robots.values()]
+        if dir == 'right' and dir != self.forbidden_move:
+            return True if my_robot_x + 1 < 16 and (grid[my_robot_y][my_robot_x].has_right_wall or [my_robot_x + 1, my_robot_y] in occupied) == False else False
+        elif dir == 'left' and dir != self.forbidden_move:
+            return True if my_robot_x - 1 >= 0 and (grid[my_robot_y][my_robot_x].has_left_wall or [my_robot_x - 1, my_robot_y]  in occupied) == False else False
+        elif dir == 'up' and dir != self.forbidden_move:
+            return True if my_robot_y - 1 >= 0 and (grid[my_robot_y][my_robot_x].has_up_wall or [my_robot_x, my_robot_y - 1]  in occupied) == False else False
+        elif dir == 'down' and dir != self.forbidden_move:
+            return True if my_robot_y + 1 < 16 and (grid[my_robot_y][my_robot_x].has_down_wall or [my_robot_x, my_robot_y + 1]  in occupied) == False else False
                     
     def print_robot(self):
         w = self.w

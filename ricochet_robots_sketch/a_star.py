@@ -51,11 +51,10 @@ class AStar():
         return children
     
     def generate_child(self,dir,robot,state):
-        if state.robots[robot].can_move(self.grid,dir,state.robots):
+        if state.robots[robot].can_move(self.grid,dir,state.robots,state.robots[robot].x_pos,state.robots[robot].y_pos):
             state_copy = copy.deepcopy(state)
             state_copy.set_actions(robot,dir)
-            while state_copy.robots[robot].move_robot(self.grid,dir,state_copy.robots):
-                pass
+            state_copy.robots[robot].move_robot_instant(self.grid,dir,state_copy.robots)
             state_copy.check_if_goal(self.goal)
             return state_copy
         return None
